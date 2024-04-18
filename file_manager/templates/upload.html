@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Upload File</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        position: relative;
+      }
+      
+      h1 {
+        text-align: center;
+        margin-top: 20px;
+      }
+      
+      form {
+        width: 80%; /* Set the width to 80% of the viewport */
+        max-width: 600px; /* Set the maximum width for the form */
+        margin: 20px auto; /* Center the form horizontally */
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        background-color: #f9f9f9;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        text-align: center;
+      }
+      
+      input[type='file'] {
+        margin-bottom: 10px;
+      }
+      
+      button {
+        display: block;
+        width: 100%;
+        padding: 10px;
+        background-color: #4caf50;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+        margin-bottom: 10px;
+      }
+      
+      button:hover {
+        background-color: #45a049;
+      }
+      
+      .view-files-btn {
+        display: block;
+        width: 100%;
+        padding: 10px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+        text-decoration: none;
+        text-align: center;
+        margin-bottom: 10px;
+      }
+      
+      .view-files-btn:hover {
+        background-color: #0056b3;
+      }
+      
+      nav {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+      }
+      
+      .logout-btn {
+        padding: 8px 16px;
+        background-color: red;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+      
+      .logout-btn:hover {
+        background-color: darkred;
+      }
+    </style>
+  </head>
+  <body>
+    <nav>
+      {% if user.is_authenticated %}
+        <form action="{% url 'logout' %}" method="post">
+          {% csrf_token %}
+          <button class="logout-btn" type="submit">Logout</button>
+        </form>
+      {% endif %}
+    </nav>
+    <h1>Upload File</h1>
+    <a href="{% url 'file_list' %}" class="view-files-btn">View All Uploaded Files</a>
+    <form method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      <input type="file" name="file" />
+      <button type="submit">Upload</button>
+    </form>
+  </body>
+</html>

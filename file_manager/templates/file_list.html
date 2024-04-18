@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Uploaded Files</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f5f5f5;
+        color: #333;
+      }
+      
+      .container {
+        max-width: 800px;
+        margin: 20px auto 0;
+        padding: 20px;
+        background-color: whitesmoke;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        color: #333;
+      }
+      
+      .container h2 {
+        color: goldenrod;
+      }
+      
+      .container ul {
+        list-style-type: none;
+        padding: 0;
+      }
+      
+      .container li {
+        padding: 15px;
+        border-bottom: 1px solid #ddd;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      
+      .container li:last-child {
+        border-bottom: none;
+      }
+      
+      .container .download-btn {
+        padding: 8px 16px;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        text-decoration: none;
+        transition: background-color 0.3s ease;
+      }
+      
+      .container .download-btn:hover {
+        background-color: #0056b3;
+      }
+      
+      .back-btn {
+        display: block;
+        margin-bottom: 20px;
+        text-align: center;
+      }
+      
+      nav {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+      }
+      
+      .logout-btn {
+        padding: 8px 16px;
+        background-color: red;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+      
+      .logout-btn:hover {
+        background-color: darkred;
+      }
+      .file-name {
+        color: darkturquoise;
+        text-decoration: none;
+      }
+    </style>
+  </head>
+  <body>
+    <nav>
+      <form action="{% url 'logout' %}" method="post">
+        {% csrf_token %}
+        <button class="logout-btn" type="submit">Logout</button>
+      </form>
+    </nav>
+
+    <div class="container">
+      <!-- Back button -->
+      <a href="{% url 'upload_file' %}" class="back-btn">&#8592; Back to Upload Page</a>
+
+      {% for user, files in users_with_files.items %}
+        <h2>{{ user.username }}</h2>
+        <ul>
+          {% for file in files %}
+            <li>
+              <span class="file-name">{{ file.name }}</span> - <a href="{% url 'download_file' file.id %}" class="download-btn">Download</a>
+            </li>
+          {% endfor %}
+        </ul>
+      {% endfor %}
+    </div>
+  </body>
+</html>
